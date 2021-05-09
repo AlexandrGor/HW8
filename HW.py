@@ -1,5 +1,4 @@
 import requests
-from pprint import pprint
 class Super_Hero:
     url = ' https://superheroapi.com/api/'
     access_token = '2619421814940190'
@@ -15,9 +14,15 @@ class Super_Hero:
             self.get_id()
         self.intelligence = requests.get(self.url + self.access_token + '/' + self.id + '/powerstats').json()['intelligence']
         return self.intelligence
-    
+def most_intelligence(heros):
+    for hero in heros:
+        if not hero.intelligence:
+            hero.get_intelligence()
+    sorted_list_of_intelligence = sorted(heros, key=lambda hero: hero.intelligence)
+    return sorted_list_of_intelligence[0]
 if __name__ == "__main__":
     Super_Heros = [Super_Hero('Hulk'),
                    Super_Hero('Captain America'),
                    Super_Hero('Thanos')]
-    print(Super_Heros[0].get_intelligence())
+    winner = most_intelligence(Super_Heros)
+    print(f"Самый умный - {winner.name}, его интеллект равен {winner.intelligence}")
